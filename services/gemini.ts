@@ -2,14 +2,14 @@
 import { GoogleGenAI, Type, Modality } from "@google/genai";
 
 // Declare window extension for AI Studio key management
-// Fix: All declarations of 'aistudio' must have identical modifiers and matching types.
 declare global {
   interface AIStudio {
     hasSelectedApiKey: () => Promise<boolean>;
     openSelectKey: () => Promise<void>;
   }
   interface Window {
-    aistudio: AIStudio;
+    // Making it optional to match any existing environment declarations and avoid "identical modifiers" error.
+    aistudio?: AIStudio;
   }
 }
 
@@ -18,7 +18,8 @@ declare global {
  */
 export const isKeySelected = async (): Promise<boolean> => {
   try {
-    return await window.aistudio.hasSelectedApiKey();
+    // Safely access aistudio property
+    return await window.aistudio?.hasSelectedApiKey() ?? false;
   } catch (e) {
     return false;
   }
@@ -29,7 +30,8 @@ export const isKeySelected = async (): Promise<boolean> => {
  */
 export const openKeySelector = async (): Promise<void> => {
   try {
-    await window.aistudio.openSelectKey();
+    // Safely access aistudio property
+    await window.aistudio?.openSelectKey();
   } catch (e) {
     console.error("Failed to open key selector:", e);
   }
