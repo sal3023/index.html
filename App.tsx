@@ -79,19 +79,19 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-[#010204] text-slate-100 selection:bg-blue-600 selection:text-white">
       
       {!hasApiKey && (
-        <div className="fixed top-0 left-0 w-full z-[1000] bg-slate-900 border-b border-emerald-500/30 py-4 px-8 flex justify-between items-center shadow-2xl">
-           <div className="flex items-center gap-4">
-              <div className="w-10 h-10 bg-emerald-600/20 rounded-xl flex items-center justify-center text-xl text-emerald-500">🔑</div>
-              <div>
-                 <p className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-400">بروتوكول الوصول الاستراتيجي</p>
-                 <p className="text-[11px] text-slate-400 font-bold">بانتظار تفعيل Gemini Flash لمدونة tosh5.shop.</p>
+        <div className="fixed top-0 left-0 w-full z-[1000] bg-[#0b1120] border-b-2 border-emerald-500/50 py-4 px-10 flex justify-between items-center shadow-[0_10px_40px_rgba(0,0,0,0.8)] animate-in slide-in-from-top duration-500">
+           <div className="flex items-center gap-5">
+              <div className="w-12 h-12 bg-emerald-600/10 border border-emerald-500/30 rounded-2xl flex items-center justify-center text-2xl text-emerald-500 animate-pulse">🔑</div>
+              <div className="text-right">
+                 <p className="text-[10px] font-black uppercase tracking-[0.25em] text-emerald-400">تنبيه المزامنة السحابية</p>
+                 <p className="text-[12px] text-slate-300 font-bold">بانتظار تنشيط المحرك المجاني لمدونة <span className="text-white italic">tosh5.shop</span>.</p>
               </div>
            </div>
            <button 
              onClick={handleActivateKey}
-             className="px-8 py-3 bg-emerald-600 text-white rounded-2xl font-black text-xs hover:bg-emerald-500 transition-all border border-emerald-400/50 shadow-[0_0_20px_rgba(16,185,129,0.4)]"
+             className="px-10 py-3 bg-emerald-600 text-white rounded-2xl font-black text-xs hover:bg-emerald-500 transition-all border border-emerald-400/50 shadow-[0_0_30px_rgba(16,185,129,0.5)] active:scale-95"
            >
-             تنشيط المحرك المجاني ⚡
+             تنشيط المحرك المجاني الآن ⚡
            </button>
         </div>
       )}
@@ -107,7 +107,7 @@ const App: React.FC = () => {
       />
       
       {(isSyncing || !hasApiKey) && (
-        <div className="fixed top-0 left-0 w-full z-[150] h-1.5 bg-blue-600 shadow-[0_0_15px_#2563eb]"></div>
+        <div className="fixed top-0 left-0 w-full z-[150] h-1.5 bg-blue-600 shadow-[0_0_20px_#2563eb]"></div>
       )}
 
       {showSecurityGate && (
@@ -119,7 +119,7 @@ const App: React.FC = () => {
 
       {showAssistant && <AIAssistant onClose={() => setShowAssistant(false)} />}
 
-      <main className="max-w-[1500px] mx-auto relative pt-32 px-4 md:px-0">
+      <main className="max-w-[1500px] mx-auto relative pt-40 px-6 md:px-0">
         {view === ViewMode.HOME && <Home posts={posts} onPostClick={(id) => { setSelectedPostId(id); setView(ViewMode.POST); }} setView={handleNavigate} />}
         {view === ViewMode.DASHBOARD && (
           <Dashboard 
@@ -150,10 +150,11 @@ const App: React.FC = () => {
 
       <CookieConsent />
 
-      <footer className="py-20 border-t border-white/5 bg-[#010204] text-center">
-        <div className="flex flex-col items-center gap-4">
-           <p className="text-[9px] font-black opacity-30 tracking-[0.5em] uppercase text-white">
-              Sovereign Vercel Node © 2025
+      <footer className="py-24 border-t border-white/5 bg-[#010204] text-center">
+        <div className="flex flex-col items-center gap-5">
+           <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-slate-500 font-black border border-white/5 italic">T</div>
+           <p className="text-[10px] font-black opacity-40 tracking-[0.6em] uppercase text-white">
+              Sovereign Vercel Infrastructure © 2025
            </p>
         </div>
       </footer>

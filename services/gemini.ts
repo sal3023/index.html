@@ -1,97 +1,116 @@
 
 import { GoogleGenAI, Type, Modality } from "@google/genai";
 
-export const getAIClient = () => {
-  const apiKey = process.env.API_KEY;
-  if (!apiKey || apiKey === "undefined") return null;
-  try {
-    return new GoogleGenAI({ apiKey: apiKey });
-  } catch (e) {
-    console.error("AI Initialization Failed:", e);
-    return null;
+// Declare window extension for AI Studio key management
+// Fix: All declarations of 'aistudio' must have identical modifiers and matching types.
+declare global {
+  interface AIStudio {
+    hasSelectedApiKey: () => Promise<boolean>;
+    openSelectKey: () => Promise<void>;
   }
-};
-
-export const testAiConnectivity = async (): Promise<{success: boolean, message: string}> => {
-  const ai = getAIClient();
-  if (!ai) return { success: false, message: "يرجى تفعيل مفتاح API للاتصال بمحرك Gemini Flash." };
-
-  try {
-    const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
-      contents: "ping",
-    });
-    if (response.text) {
-      return { success: true, message: "النظام متصل بمحرك Gemini Flash المجاني بنجاح." };
-    }
-    return { success: false, message: "استجابة غير متوقعة من الخادم." };
-  } catch (error: any) {
-    return { success: false, message: `خطأ في الاتصال: ${error.message}` };
+  interface Window {
+    aistudio: AIStudio;
   }
-};
+}
 
+/**
+ * Checks if an API key has been selected via the AI Studio dialog.
+ */
 export const isKeySelected = async (): Promise<boolean> => {
-  if (typeof window !== 'undefined' && (window as any).aistudio?.hasSelectedApiKey) {
-    return await (window as any).aistudio.hasSelectedApiKey();
-  }
-  return !!process.env.API_KEY && process.env.API_KEY !== "undefined";
-};
-
-export const openKeySelector = async () => {
-  if (typeof window !== 'undefined' && (window as any).aistudio?.openSelectKey) {
-    await (window as any).aistudio.openSelectKey();
-    return true; 
-  }
-  return false;
-};
-
-export const resetKeySelection = async () => {
-    localStorage.removeItem('baseera_ai_active');
-    return true;
-};
-
-export const getStrategicSearchResponse = async (prompt: string) => {
-  const ai = getAIClient();
-  if (!ai) return { text: "برجاء تفعيل المحرك المجاني.", chunks: [] };
-  
   try {
+    return await window.aistudio.hasSelectedApiKey();
+  } catch (e) {
+    return false;
+  }
+};
+
+/**
+ * Opens the AI Studio API key selection dialog.
+ */
+export const openKeySelector = async (): Promise<void> => {
+  try {
+    await window.aistudio.openSelectKey();
+  } catch (e) {
+    console.error("Failed to open key selector:", e);
+  }
+};
+
+/**
+ * Resets the key selection state (placeholder as the API manages its own state).
+ */
+export const resetKeySelection = async (): Promise<void> => {
+  // Currently, re-triggering openKeySelector is the primary way to "reset" or change keys.
+  return Promise.resolve();
+};
+
+// Fix: Always use process.env.API_KEY and named parameter for initialization
+export const testAiConnectivity = async (): Promise<{success: boolean, message: string}> => {
+  try {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
-      contents: prompt,
-      config: { tools: [{ googleSearch: {} }] }
+      contents: "تحقق من الاتصال الاستراتيجي.",
     });
-    
-    return {
-      text: response.text || "",
-      chunks: response.candidates?.[0]?.groundingMetadata?.groundingChunks || []
-    };
+    // Fix: Access .text property directly
+    if (response.text) {
+      return { success: true, message: "✅ المحرك الاستراتيجي Gemini 3 يعمل بكامل طاقته." };
+    }
+    return { success: false, message: "⚠️ استجابة غير مكتملة من الخادم." };
   } catch (error: any) {
-    return { text: "حدث خطأ في معالجة الطلب عبر الفلاش.", chunks: [] };
+    return { success: false, message: `❌ خطأ اتصال: ${error.message}` };
   }
 };
 
-export const fetchTrendingTopics = async () => {
-  const ai = getAIClient();
-  if (!ai) return "";
+/**
+ * Generates a full AI post with thinking budget.
+ */
+export const generateFullAIPost = async (topic: string) => {
   try {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
-      contents: "ما هي أهم الترندات التقنية الحالية لمدونة tosh5.shop؟",
-      config: { tools: [{ googleSearch: {} }] }
+      contents: `بصفتك خبيراً في إنشاء المحتوى لـ YouTube Studio P, اكتب مقالاً احترافياً عن: "${topic}". 
+      استخدم لغة قوية، تقسيمات واضحة، وركز على القيمة المضافة للقارئ. 
+      اجعل العنوان جذاباً جداً.`,
+      config: {
+        thinkingConfig: { thinkingBudget: 10000 }
+      }
     });
-    return response.text || "";
-  } catch (error) {
-    return "بانتظار تفعيل رادار البحث...";
-  }
+    const text = response.text || "";
+    const lines = text.split('\n');
+    return {
+      title: lines[0].replace(/[#*]/g, '').trim(),
+      content: text,
+      excerpt: text.substring(0, 200).replace(/<[^>]*>?/gm, '') + "..."
+    };
+  } catch (error) { return null; }
 };
 
-export const generateSocialKit = async (title: string, excerpt: string) => {
-  const ai = getAIClient();
-  if (!ai) return null;
+/**
+ * Generates a custom Blogger XML theme.
+ */
+export const generateCustomBloggerTheme = async (prompt: string) => {
   try {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
-      contents: `قم بتوليد حزمة نصوص للسوشيال ميديا لهذا المقال: ${title}. ${excerpt}`,
+      contents: `صمم قالب بلوجر (Blogger XML) احترافي، حديث، وسريع جداً لمدونة "YouTube Studio P" بناءً على هذا الطلب: "${prompt}". 
+      يجب أن يكون التصميم متجاوباً، يدعم Tailwind CSS، ويحتوي على Bento Grid للمنشورات. 
+      أخرج كود XML فقط بين علامات الكود.`,
+    });
+    return response.text || null;
+  } catch (error) { return null; }
+};
+
+/**
+ * Generates social media text for 8 platforms.
+ */
+export const generateSocialKit = async (title: string, excerpt: string) => {
+  try {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const response = await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: `قم بتوليد حزمة نصوص تسويقية ذكية لـ 8 منصات (X, LinkedIn, Facebook, WhatsApp, Telegram, Instagram, TikTok, Pinterest) لهذا المقال: ${title}. ${excerpt}`,
       config: {
         responseMimeType: "application/json",
         responseSchema: {
@@ -105,97 +124,77 @@ export const generateSocialKit = async (title: string, excerpt: string) => {
             instagram: { type: Type.STRING },
             tiktok: { type: Type.STRING },
             pinterest: { type: Type.STRING }
-          }
+          },
+          required: ["x", "linkedin", "facebook", "whatsapp", "telegram", "instagram", "tiktok", "pinterest"]
         }
       }
     });
-    return JSON.parse(response.text);
-  } catch (error) {
-    return null;
-  }
+    return JSON.parse(response.text || "{}");
+  } catch (error) { return null; }
 };
 
-export const generateImageForPost = async (prompt: string) => {
-  const ai = getAIClient();
-  if (!ai) return null;
+/**
+ * Generates a summary for a post.
+ */
+export const generatePostSummary = async (content: string): Promise<string> => {
   try {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const response = await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: `قم بتلخيص المحتوى التالي باختصار شديد وبأسلوب استراتيجي:\n\n${content}`,
+    });
+    return response.text || "";
+  } catch (error) { return ""; }
+};
+
+/**
+ * Performs a deep strategic analysis of post content.
+ */
+export const deepStrategicAnalysis = async (content: string): Promise<string> => {
+  try {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const response = await ai.models.generateContent({
+      model: "gemini-3-pro-preview",
+      contents: `قم بإجراء تحليل استراتيجي عميق للمحتوى التالي، وضح نقاط القوة والفرص المستهدفة:\n\n${content}`,
+    });
+    return response.text || "";
+  } catch (error) { return ""; }
+};
+
+/**
+ * Generates a blog cover image using gemini-2.5-flash-image.
+ */
+export const generateImageForPost = async (title: string): Promise<string | null> => {
+  try {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash-image',
-      contents: { parts: [{ text: `High quality strategic digital art for: ${prompt}` }] },
-      config: { imageConfig: { aspectRatio: "16:9" } }
+      contents: {
+        parts: [
+          { text: `A professional, high-quality blog cover image for a technical article titled: "${title}". Cinematic, futuristic, and sharp.` }
+        ]
+      }
     });
-    const part = response.candidates?.[0]?.content?.parts.find(p => p.inlineData);
-    return part?.inlineData ? `data:image/png;base64,${part.inlineData.data}` : null;
-  } catch (error: any) {
+    // Fix: Iterate parts to find the image as per guidelines
+    for (const part of response.candidates[0].content.parts) {
+      if (part.inlineData) {
+        return `data:image/png;base64,${part.inlineData.data}`;
+      }
+    }
     return null;
-  }
-};
-
-export const generatePostSummary = async (content: string) => {
-  const ai = getAIClient();
-  if (!ai) return null;
-  try {
-    const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
-      contents: `لخص هذا المحتوى لمدونة tosh5.shop: ${content}`,
-    });
-    return response.text || null;
   } catch (error) { return null; }
 };
 
-export const deepStrategicAnalysis = async (content: string) => {
-  const ai = getAIClient();
-  if (!ai) return null;
+/**
+ * Generates a business plan based on provided project data.
+ */
+export const generateBusinessPlan = async (data: { name: string, industry: string, goals: string }): Promise<string | null> => {
   try {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
-      contents: `قم بإجراء تحليل استراتيجي لهذا المحتوى: ${content}`,
+      model: "gemini-3-pro-preview",
+      contents: `بصفتك مستشاراً استراتيجياً، قم بتوليد خطة عمل (Business Plan) شاملة لهذا المشروع:\nالاسم: ${data.name}\nالصناعة: ${data.industry}\nالأهداف والتحديات: ${data.goals}`,
     });
     return response.text || null;
   } catch (error) { return null; }
-};
-
-export const generateFullAIPost = async (topic: string) => {
-  const ai = getAIClient();
-  if (!ai) return null;
-  try {
-    const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
-      contents: `اكتب مقالاً استراتيجياً كاملاً لمدونة tosh5.shop عن: ${topic}.`,
-    });
-    const text = response.text;
-    return {
-      title: text.split('\n')[0].replace('#', '').trim(),
-      content: text,
-      excerpt: text.substring(0, 200).replace(/<[^>]*>?/gm, '') + "..."
-    };
-  } catch (error) { return null; }
-};
-
-export const generateCustomBloggerTheme = async (prompt: string) => {
-  const ai = getAIClient();
-  if (!ai) return null;
-  try {
-    const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
-      contents: `صمم قالب بلوجر (Blogger XML) لـ tosh5.shop بناءً على: "${prompt}". أخرج كود XML فقط.`,
-    });
-    return response.text || null;
-  } catch (error) {
-    return null;
-  }
-};
-
-export const generateBusinessPlan = async (data: { name: string; industry: string; goals: string }) => {
-  const ai = getAIClient();
-  if (!ai) return null;
-  try {
-    const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
-      contents: `إنشاء خطة عمل لشركة "${data.name}" في قطاع "${data.industry}". الأهداف: ${data.goals}.`,
-    });
-    return response.text || null;
-  } catch (error) {
-    return null;
-  }
 };

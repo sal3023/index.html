@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>بصيرة PRO | القمة العالمية لـ tosh5.shop</title>
+    <title>YouTube Studio P | التحكم السيادي</title>
     
     <meta name="theme-color" content="#020617">
     <link rel="manifest" href="metadata.json">
@@ -22,7 +22,6 @@
         overflow-x: hidden;
       }
 
-      /* Sharper Background - No more blur fog */
       .bg-mesh {
         position: fixed;
         inset: 0;
@@ -33,65 +32,65 @@
       .bg-grid {
         position: fixed;
         inset: 0;
-        background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), 
-                          linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-        background-size: 50px 50px;
+        background-image: linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px), 
+                          linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
         z-index: -1;
         mask-image: radial-gradient(circle at center, black, transparent);
       }
 
-      /* Solid Sharp Cards - Better Contrast, No backdrop blur */
-      .bento-luxury {
-        background: #0b1120;
+      .bento-card {
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 10px 40px -10px rgba(0,0,0,0.8);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
       }
 
-      .bento-luxury:hover {
+      .bento-card:hover {
         border-color: #3b82f6;
-        background: #0f172a;
-        transform: translateY(-4px);
+        transform: translateY(-5px) scale(1.01);
+        background: rgba(30, 41, 59, 0.8);
       }
 
-      /* Sharp Navigation - Increased Opacity */
-      .glass-nav {
-        background: #020408;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      .neon-border {
+        position: relative;
+        overflow: hidden;
       }
 
-      /* Eliminate Glare and Text Glow */
-      .no-glare {
-        text-shadow: none !important;
-        box-shadow: none !important;
+      .neon-border::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(transparent, #3b82f6, transparent, transparent);
+        animation: rotate 4s linear infinite;
+        z-index: -1;
+        opacity: 0.3;
       }
 
-      ::-webkit-scrollbar {
-        width: 6px;
+      @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
       }
-      ::-webkit-scrollbar-track {
-        background: #010204;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #1e293b;
-        border-radius: 10px;
-      }
+
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: #010204; }
+      ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
     </style>
-
-    <script type="importmap">
+  <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@19.0.0",
-    "react-dom": "https://esm.sh/react-dom@19.0.0",
-    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
-    "@google/genai": "https://esm.sh/@google/genai@1.37.0",
-    "recharts": "https://esm.sh/recharts@2.12.7?deps=react@19.0.0,react-dom@19.0.0",
+    "react": "https://esm.sh/react@^19.2.4",
     "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/"
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.40.0"
   }
 }
 </script>
-  </head>
+</head>
   <body>
     <div class="bg-mesh"></div>
     <div class="bg-grid"></div>

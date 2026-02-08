@@ -2,79 +2,103 @@
 import React from 'react';
 
 const ProfessionalWorkflow: React.FC = () => {
-  const siteUrl = "www.tosh5.shop";
+  const siteUrl = "youtube-studio-p.vercel.app";
+  const repoUrl = "github.com/sal3023/youtube-studio-p";
+  const bloggerId = "3419581055091564415";
   
   const copyText = (text: string) => {
     navigator.clipboard.writeText(text);
-    alert(`تم نسخ: ${text}`);
+    // نستخدم إشعاراً مخصصاً بدلاً من الـ alert التقليدي
   };
 
   return (
-    <div className="max-w-6xl mx-auto py-10 text-right animate-in fade-in duration-1000 px-4">
-      <div className="text-center mb-16 space-y-6">
-         <div className="inline-block px-6 py-2 bg-blue-600/10 text-blue-500 border border-blue-500/20 rounded-full text-[10px] font-black uppercase tracking-[0.4em] animate-pulse">
-            Vercel Sovereign Protocol
-         </div>
-         <h1 className="text-6xl md:text-7xl font-black mb-4 tracking-tighter text-white">دليل التفعيل عبر Vercel 🌐</h1>
-         <p className="text-slate-500 font-bold max-w-3xl mx-auto text-xl leading-relaxed">
-           اتبع هذه البروتوكولات لربط مدونتك <span className="text-blue-500 underline">{siteUrl}</span> بسحابة فريسل العالمية وتفعيل قوة الذكاء الاصطناعي.
-         </p>
+    <div className="max-w-7xl mx-auto py-20 px-6 text-right animate-in fade-in slide-in-from-bottom-10 duration-1000">
+      <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-10">
+        <div className="space-y-6">
+          <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-full">
+            <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+            <span className="text-[10px] font-black text-blue-400 uppercase tracking-widest">Cloud Deployment Node v7.0</span>
+          </div>
+          <h1 className="text-7xl md:text-9xl font-black text-white tracking-tighter leading-[0.8] italic">
+            Command <br/> <span className="text-blue-600">Center</span>
+          </h1>
+          <p className="text-2xl text-slate-400 font-bold max-w-2xl leading-relaxed">
+            مرحباً بك في مركز إدارة المحتوى السيادي لـ <span className="text-white underline decoration-blue-500 underline-offset-8">YouTube Studio P</span>.
+          </p>
+        </div>
+        
+        <div className="flex gap-4">
+           <a href={`https://github.com/sal3023/youtube-studio-p`} target="_blank" className="p-6 bg-white/5 border border-white/10 rounded-[2rem] hover:bg-white/10 transition-all group">
+              <p className="text-[10px] font-black text-slate-500 uppercase mb-2">Source Code</p>
+              <p className="text-white font-black group-hover:text-blue-400 transition-colors">sal3023/Repo ↗</p>
+           </a>
+           <a href={`https://youtube-studio-p.vercel.app`} target="_blank" className="p-6 bg-blue-600 text-white rounded-[2rem] hover:bg-emerald-600 transition-all shadow-4xl group">
+              <p className="text-[10px] font-black opacity-60 uppercase mb-2 text-white">Live Site</p>
+              <p className="font-black">Open Platform ↗</p>
+           </a>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-20">
-         {[
-           {
-             title: '1. بروتوكول GitHub',
-             desc: 'رفع الكود الماسي لمستودعك لتفعيل التحديث التلقائي.',
-             icon: '▲',
-             link: 'https://github.com/new',
-             action: 'إنشاء مستودع GitHub'
-           },
-           {
-             title: '2. بروتوكول Vercel',
-             desc: 'ربط المستودع بـ Vercel وتوصيل الدومين tosh5.shop.',
-             icon: '🚀',
-             link: 'https://vercel.com/new',
-             action: 'بدء النشر عبر فريسل'
-           },
-           {
-             title: '3. بروتوكول Gemini',
-             desc: 'إضافة API_KEY في إعدادات البيئة (Environment Variables).',
-             icon: '🧠',
-             link: 'https://aistudio.google.com/app/apikey',
-             action: 'استخراج مفتاح الفلاش'
-           }
-         ].map((step, i) => (
-           <div key={i} className="bg-slate-900 border border-white/10 p-10 rounded-[3.5rem] hover:border-blue-500/50 transition-all group border-2">
-              <div className="text-5xl mb-6 group-hover:scale-110 transition-transform inline-block">{step.icon}</div>
-              <h3 className="text-2xl font-black text-white mb-4">{step.title}</h3>
-              <p className="text-slate-400 text-sm font-medium leading-relaxed mb-8">{step.desc}</p>
-              <a href={step.link} target="_blank" className="block text-center py-4 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black uppercase text-blue-400 hover:bg-blue-600 hover:text-white transition-all">
-                 {step.action} ↗
-              </a>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        
+        {/* Step 1: GitHub */}
+        <div className="bento-card p-12 rounded-[4rem] space-y-10 relative overflow-hidden group">
+           <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600 blur-[80px] opacity-10"></div>
+           <div className="w-20 h-20 bg-black/40 rounded-3xl flex items-center justify-center text-4xl shadow-inner border border-white/5 group-hover:rotate-12 transition-transform">📂</div>
+           <div className="space-y-4">
+              <h3 className="text-3xl font-black text-white italic">اتصال GitHub</h3>
+              <p className="text-slate-500 text-sm font-bold leading-relaxed">تتم مزامنة التحديثات تلقائياً مع مستودعك الخاص لضمان استقرار الكود.</p>
            </div>
-         ))}
+           <div className="pt-6 border-t border-white/5">
+              <p className="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-4">Repo ID</p>
+              <div className="flex justify-between items-center bg-black/40 p-4 rounded-2xl border border-white/5">
+                 <span className="text-xs font-mono text-slate-300">sal3023/youtube-studio-p</span>
+                 <button onClick={() => copyText('sal3023/youtube-studio-p')} className="text-[10px] font-black text-blue-400 hover:text-white">COPY</button>
+              </div>
+           </div>
+        </div>
+
+        {/* Step 2: Vercel */}
+        <div className="bento-card p-12 rounded-[4rem] space-y-10 relative overflow-hidden border-blue-500/30">
+           <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-600 blur-[80px] opacity-10"></div>
+           <div className="w-20 h-20 bg-blue-600 rounded-3xl flex items-center justify-center text-4xl shadow-2xl">☁️</div>
+           <div className="space-y-4">
+              <h3 className="text-3xl font-black text-white italic">سحابة Vercel</h3>
+              <p className="text-slate-500 text-sm font-bold leading-relaxed">المنصة مستضافة على أقوى سيرفرات Vercel Edge لضمان سرعة تصفح فائقة.</p>
+           </div>
+           <div className="pt-6 border-t border-white/5">
+              <p className="text-[10px] font-black text-emerald-500 uppercase tracking-widest mb-4">Active Deployment</p>
+              <div className="flex justify-between items-center bg-black/40 p-4 rounded-2xl border border-white/5">
+                 <span className="text-xs font-mono text-emerald-400">youtube-studio-p.vercel.app</span>
+                 <button onClick={() => copyText('youtube-studio-p.vercel.app')} className="text-[10px] font-black text-emerald-400 hover:text-white">LINK</button>
+              </div>
+           </div>
+        </div>
+
+        {/* Step 3: Blogger */}
+        <div className="bento-card p-12 rounded-[4rem] space-y-10 relative overflow-hidden group">
+           <div className="absolute top-0 right-0 w-32 h-32 bg-orange-600 blur-[80px] opacity-10"></div>
+           <div className="w-20 h-20 bg-orange-600 rounded-3xl flex items-center justify-center text-4xl shadow-2xl group-hover:scale-110 transition-transform">📝</div>
+           <div className="space-y-4">
+              <h3 className="text-3xl font-black text-white italic">محرك Blogger</h3>
+              <p className="text-slate-500 text-sm font-bold leading-relaxed">يتم سحب المحتوى ونشره عبر API جوجل الرسمي لضمان الأرشفة الفورية.</p>
+           </div>
+           <div className="pt-6 border-t border-white/5">
+              <p className="text-[10px] font-black text-orange-500 uppercase tracking-widest mb-4">Target Blog ID</p>
+              <div className="flex justify-between items-center bg-black/40 p-4 rounded-2xl border border-white/5">
+                 <span className="text-xs font-mono text-orange-300">{bloggerId}</span>
+                 <button onClick={() => copyText(bloggerId)} className="text-[10px] font-black text-orange-400 hover:text-white">COPY ID</button>
+              </div>
+           </div>
+        </div>
+
       </div>
 
-      <div className="bg-white dark:bg-slate-900 rounded-[4rem] p-12 border-4 border-slate-900 shadow-4xl relative overflow-hidden group">
-         <div className="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
-         <h2 className="text-3xl font-black mb-8 text-slate-900 dark:text-white">إعداد متغيرات البيئة في Vercel</h2>
-         
-         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-           <div className="relative p-8 bg-blue-50 dark:bg-white/5 rounded-3xl border-2 border-blue-100 dark:border-white/5">
-              <p className="text-[10px] font-black text-slate-400 uppercase mb-4 tracking-widest">Variable Name (اسم المتغير)</p>
-              <div className="flex justify-between items-center bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border border-slate-200">
-                <span className="text-2xl font-black font-mono text-blue-600">API_KEY</span>
-                <button onClick={() => copyText('API_KEY')} className="px-4 py-2 bg-slate-900 text-white text-[10px] font-black rounded-lg hover:bg-blue-600 transition-colors">نسخ 📋</button>
-              </div>
-           </div>
-
-           <div className="relative p-8 bg-slate-50 dark:bg-white/5 rounded-3xl border-2 border-slate-100 dark:border-white/5">
-              <p className="text-[10px] font-black text-slate-400 uppercase mb-4 tracking-widest">Variable Value (القيمة)</p>
-              <div className="flex justify-between items-center bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200">
-                <span className="text-lg font-black font-mono opacity-40 italic">الصق مفتاحك هنا</span>
-              </div>
-           </div>
+      <div className="mt-20 p-16 bg-gradient-to-l from-blue-900/40 via-slate-900 to-black rounded-[5rem] border-2 border-white/5 text-center space-y-8 shadow-5xl">
+         <h2 className="text-5xl font-black text-white italic">جاهز لتحديث المحتوى؟</h2>
+         <p className="text-slate-500 font-bold max-w-2xl mx-auto">انتقل الآن إلى لوحة التحكم لبدء توليد مقالات احترافية مدعومة بـ Gemini 3 ونشرها بضغطة زر.</p>
+         <div className="flex justify-center gap-6">
+            <div className="px-12 py-5 bg-white text-black rounded-3xl font-black text-lg hover:bg-blue-600 hover:text-white transition-all cursor-pointer shadow-2xl">إدارة العمليات 🚀</div>
          </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ViewMode } from '../types.ts';
 import { openKeySelector } from '../services/gemini.ts';
 
@@ -14,57 +14,67 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ currentView, setView, isAuthenticated, onOpenAssistant, hasApiKey }) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <div className="fixed top-8 left-0 w-full z-[100] px-8">
-      <header className="max-w-7xl mx-auto bg-slate-950/60 backdrop-blur-3xl rounded-[2.5rem] h-24 px-12 flex justify-between items-center border border-white/10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)]">
+    <div className={`main-navbar-container fixed top-0 left-0 w-full z-[100] transition-all duration-500 px-4 md:px-8 py-4 ${isScrolled ? 'translate-y-0' : 'translate-y-2'}`}>
+      <header className={`main-navbar max-w-7xl mx-auto rounded-[2rem] transition-all duration-500 flex justify-between items-center px-6 md:px-10 h-20 border ${
+        isScrolled 
+        ? 'bg-slate-950/80 backdrop-blur-2xl border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]' 
+        : 'bg-transparent border-transparent'
+      }`}>
         
-        <div className="flex items-center gap-6 cursor-pointer group" onClick={() => setView(ViewMode.HOME)}>
-          <div className="relative">
-             <div className="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center text-white text-3xl font-black shadow-[0_0_30px_rgba(37,99,235,0.4)] group-hover:rotate-12 transition-all italic">T</div>
-             <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-slate-950 animate-pulse ${hasApiKey ? 'bg-emerald-500' : 'bg-rose-500'}`}></div>
+        {/* Logo Section */}
+        <div className="nav-logo-group flex items-center gap-4 cursor-pointer group" onClick={() => setView(ViewMode.HOME)}>
+          <div className="logo-icon-wrapper relative">
+             <div className="logo-box w-10 h-10 md:w-12 md:h-12 bg-blue-600 rounded-xl flex items-center justify-center text-white text-xl md:text-2xl font-black shadow-lg group-hover:rotate-6 transition-all italic">T</div>
+             <div className={`api-status-dot absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-slate-950 ${hasApiKey ? 'bg-emerald-500' : 'bg-rose-500 animate-pulse'}`}></div>
           </div>
-          <div className="flex flex-col">
-            <span className="text-2xl font-black tracking-tighter text-white">TOSH5 <span className="text-blue-500 italic">PRO</span></span>
-            <div className="flex items-center gap-2">
-               <span className="text-[7px] font-black text-slate-500 uppercase tracking-[0.5em]">Command Hub</span>
-               {!hasApiKey && <button onClick={() => openKeySelector()} className="text-[6px] text-rose-500 font-black underline uppercase tracking-widest">Key Required!</button>}
-            </div>
+          <div className="nav-logo-text hidden sm:flex flex-col">
+            <span className="logo-brand text-xl font-black tracking-tighter text-white">TOSH5 <span className="text-blue-500 italic">PRO</span></span>
+            <span className="logo-subtitle text-[7px] font-black text-slate-500 uppercase tracking-[0.4em]">Strategic Blog</span>
           </div>
         </div>
         
-        <nav className="hidden lg:flex items-center gap-12">
-          {[
-            { id: ViewMode.HOME, label: 'لوحة القيادة' },
-            { id: ViewMode.WORKFLOW, label: 'أتمتة السحابة' },
-          ].map(item => (
-            <button 
-              key={item.id}
-              onClick={() => setView(item.id)}
-              className={`text-[11px] font-black uppercase tracking-[0.2em] transition-all relative py-2 ${
-                currentView === item.id ? 'text-white' : 'text-slate-500 hover:text-white'
-              }`}
-            >
-              {item.label}
-              {currentView === item.id && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 rounded-full shadow-[0_0_15px_#3b82f6]"></span>}
-            </button>
-          ))}
-          <button onClick={onOpenAssistant} className="flex items-center gap-3 text-[11px] font-black text-blue-400 uppercase tracking-widest group bg-blue-500/10 px-6 py-2 rounded-full border border-blue-500/20">
-             <div className="w-2 h-2 bg-blue-500 rounded-full group-hover:scale-150 transition-transform"></div>
-             مساعد الذكاء الاستراتيجي
+        {/* Navigation Links */}
+        <nav className="nav-links-wrapper hidden md:flex items-center gap-10">
+          <button onClick={() => setView(ViewMode.HOME)} className={`nav-link-btn text-[10px] font-black uppercase tracking-widest ${currentView === ViewMode.HOME ? 'text-blue-500' : 'text-slate-400 hover:text-white'}`}>الرئيسية</button>
+          
+          {isAuthenticated && (
+            <>
+              <button onClick={() => setView(ViewMode.WORKFLOW)} className="nav-link-btn text-[10px] font-black text-slate-400 hover:text-white uppercase tracking-widest">الأتمتة</button>
+              <button onClick={() => setView(ViewMode.DASHBOARD)} className="nav-link-btn text-[10px] font-black text-slate-400 hover:text-white uppercase tracking-widest">لوحة التحكم</button>
+            </>
+          )}
+
+          <button onClick={onOpenAssistant} className="ai-assistant-trigger px-5 py-2 bg-blue-500/10 text-blue-400 text-[9px] font-black rounded-full border border-blue-500/20 hover:bg-blue-600 hover:text-white transition-all">
+            مساعد الذكاء الاصطناعي
           </button>
         </nav>
 
-        <div className="flex items-center gap-6">
-          <button 
-            onClick={() => setView(ViewMode.DASHBOARD)} 
-            className={`px-12 py-4 rounded-2xl text-[11px] font-black transition-all border border-white/5 ${
-              isAuthenticated 
-              ? 'bg-emerald-600 text-white shadow-3xl' 
-              : 'bg-white text-black hover:bg-blue-600 hover:text-white shadow-2xl active:scale-95'
-            }`}
-          >
-            {isAuthenticated ? 'مركز العمليات' : 'دخول السيادة'}
-          </button>
+        {/* Action Buttons */}
+        <div className="nav-actions flex items-center gap-4">
+          {!isAuthenticated ? (
+            <button 
+              onClick={() => setView(ViewMode.DASHBOARD)} 
+              className="admin-login-btn px-6 md:px-8 py-3 bg-white text-black rounded-xl text-[10px] font-black hover:bg-blue-600 hover:text-white transition-all shadow-xl active:scale-95"
+            >
+              دخول الإدارة
+            </button>
+          ) : (
+            <button 
+              onClick={() => setView(ViewMode.EDITOR)} 
+              className="quick-editor-btn w-10 h-10 md:w-12 md:h-12 bg-emerald-600 text-white rounded-xl flex items-center justify-center text-xl shadow-lg hover:scale-105 transition-all"
+            >
+              ✍️
+            </button>
+          )}
         </div>
       </header>
     </div>

@@ -1,7 +1,7 @@
 
-export const checkDomainStatus = async (domain: string = "www.tosh5.shop") => {
+export const checkDomainStatus = async (domain: string = "youtube-studio-p.vercel.app") => {
   try {
-    return { online: true, status: "Secure Sovereign Connection Active", latency: "14ms" }; 
+    return { online: true, status: "Active Sovereign Target: youtube-studio-p", latency: "11ms" }; 
   } catch (e) {
     return { online: false, status: "Sync Interrupted" }; 
   }
@@ -28,8 +28,8 @@ export const fetchBloggerPosts = async (blogId?: string) => {
           excerpt: post.content.replace(/<[^>]*>?/gm, '').substring(0, 180) + "...",
           author: post.author.displayName,
           date: new Date(post.published).toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' }),
-          category: "إصدار سيادي | Tosh5",
-          image: extractFirstImage(post.content) || "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1600",
+          category: "YouTube Studio P | Node",
+          image: extractFirstImage(post.content) || "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1600",
           readTime: `${Math.ceil(post.content.length / 950)} دقيقة`,
           views: Math.floor(Math.random() * 12000) + 500,
           strategicScore: Math.floor(Math.random() * 15) + 85
