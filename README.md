@@ -1,11 +1,25 @@
-<div align="center">
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+# 🚀 بصيرة PRO | Netlify Edition
 
-  <h1>Built with AI Studio</h2>
+![Version](https://img.shields.io/badge/version-5.1.0-emerald.svg)
+![Build](https://img.shields.io/badge/Deployment-Netlify-blue.svg)
+![AI](https://img.shields.io/badge/Powered_by-Gemini_AI-emerald.svg)
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+**بصيرة PRO** هي منصة تدوين استراتيجية عالمية مصممة للقادة والمبتكرين، تعمل الآن بكفاءة عالية على بنية **Netlify** التحتية.
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## 🌐 الموقع المباشر
+[www.tosh5.shop](https://www.tosh5.shop)
 
-</div>
+## ✨ المميزات السحابية
+- **Netlify SPA Routing:** دعم كامل لملف `_redirects` لضمان استقرار الروابط.
+- **Edge Functions Friendly:** مهيأ للتوسع مع خدمات Netlify السحابية.
+- **AI Content Audit:** مراجعة ذكية للمحتوى قبل النشر عبر Gemini API.
+
+## 🛠️ كيف تبدأ؟
+1. ارفع هذا المستودع إلى حسابك على GitHub.
+2. اربط المستودع بـ **Netlify**.
+3. أضف مفتاح Gemini في متغيرات البيئة باسم `API_KEY` من خلال (Site Settings > Environment Variables).
+4. تأكد من تفعيل "Build command" ليكون `npm run build` ومجلد النشر `dist`.
+
+---
+*تم التطوير بكل فخر بواسطة محرك بصيرة الاستراتيجي.*
