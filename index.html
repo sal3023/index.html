@@ -17,7 +17,7 @@
     <style>
       body {
         font-family: 'Tajawal', sans-serif;
-        background-color: #010204; /* عمق أكثر للسواد */
+        background-color: #010204;
         color: #f8fafc;
         overflow-x: hidden;
       }
@@ -40,11 +40,11 @@
         mask-image: radial-gradient(circle at center, black, transparent);
       }
 
-      /* Solid Sharp Cards - Better Contrast */
+      /* Solid Sharp Cards - Better Contrast, No backdrop blur */
       .bento-luxury {
         background: #0b1120;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 10px 40px -10px rgba(0,0,0,0.7);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 10px 40px -10px rgba(0,0,0,0.8);
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
@@ -54,13 +54,13 @@
         transform: translateY(-4px);
       }
 
-      /* Sharp Navigation */
+      /* Sharp Navigation - Increased Opacity */
       .glass-nav {
-        background: rgba(2, 4, 8, 0.95);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        background: #020408;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
       }
 
-      /* Eliminate Glare */
+      /* Eliminate Glare and Text Glow */
       .no-glare {
         text-shadow: none !important;
         box-shadow: none !important;

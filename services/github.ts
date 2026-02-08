@@ -23,19 +23,19 @@ export const uploadFileToGitHub = async (
       const data = await checkRes.json();
       sha = data.sha;
     } else if (checkRes.status === 404) {
-      // ملف جديد، لا مشكلة
+      // ملف جديد
     } else {
       const errorData = await checkRes.json();
-      throw new Error(`خطأ في الوصول للملف: ${errorData.message}`);
+      throw new Error(`GitHub Auth Error: ${errorData.message}`);
     }
   } catch (error: any) {
-    if (error.message.includes('Access')) throw error;
+    if (error.message.includes('Auth')) throw error;
   }
 
   const base64Content = btoa(unescape(encodeURIComponent(content)));
 
   const body = {
-    message,
+    message: message || "Sovereign Vercel Deploy Sync",
     content: base64Content,
     sha,
     branch: 'main'
@@ -52,7 +52,7 @@ export const uploadFileToGitHub = async (
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message || 'فشل الرفع');
+    throw new Error(errorData.message || 'GitHub Upload Failed');
   }
 
   return true;
