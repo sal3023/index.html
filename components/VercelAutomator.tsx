@@ -90,53 +90,62 @@ const VercelAutomator: React.FC = () => {
              <span className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.4em] animate-pulse">Vercel Target</span>
              <div className="w-10 h-10 bg-white text-black flex items-center justify-center rounded-xl text-2xl font-black shadow-2xl italic">V</div>
           </div>
-          <h3 className="text-4xl font-black text-white italic">مركز التحكم بـ Vercel 📡</h3>
-          <p className="text-slate-400 text-sm max-w-lg leading-relaxed font-bold">يتم التحكم في المشروع: <span className="text-blue-500 underline">youtube-studio-p</span></p>
+          <h3 className="text-4xl font-black text-white italic">مركز التحكم السحابي (Vercel) 📡</h3>
+          <p className="text-slate-400 text-sm max-w-lg leading-relaxed font-bold">إدارة النشر التلقائي والمزامنة السيادية لمدونة <span className="text-blue-500 underline">tosh5.shop</span></p>
         </div>
         
-        <div className="flex flex-col gap-3">
-          <button 
-            onClick={startDiagnosis}
-            disabled={status === 'syncing'}
-            className="px-12 py-5 bg-white text-black rounded-[2rem] font-black text-sm shadow-[0_15px_30px_rgba(255,255,255,0.1)] hover:bg-blue-600 hover:text-white transition-all disabled:opacity-50 active:scale-95"
-          >
-            {status === 'syncing' ? 'جاري الفحص...' : 'تفعيل الربط السحابي 🚀'}
-          </button>
-          <button 
-            onClick={forceConnect}
-            className="text-[10px] font-black text-rose-500 uppercase tracking-widest hover:text-white transition-colors"
-          >
-            ربط قسري (تجاوز القيود) ⚡
-          </button>
+        <div className="flex gap-4">
+           <button 
+             onClick={() => window.open('https://vercel.com/account/tokens', '_blank')}
+             className="px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-black text-[10px] hover:bg-white/10 transition-all active:scale-95"
+           >
+             إنشاء Token 🔑
+           </button>
+           <button 
+             onClick={startDiagnosis}
+             disabled={status === 'syncing'}
+             className="px-12 py-5 bg-blue-600 text-white rounded-[2rem] font-black text-sm shadow-[0_15px_30_rgba(37,99,235,0.3)] hover:bg-blue-500 transition-all disabled:opacity-50 active:scale-95 border border-blue-400/30"
+           >
+             {status === 'syncing' ? 'جاري المزامنة...' : 'تفعيل الربط السحابي 🚀'}
+           </button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         <div className="space-y-8 text-right">
-           <div className="space-y-3">
-              <label className="text-[10px] font-black text-blue-400 uppercase tracking-widest px-3">Vercel Token</label>
-              <input 
-                type="password"
-                value={token}
-                onChange={(e) => setToken(e.target.value)}
-                className="w-full bg-black border-2 border-white/5 rounded-3xl px-8 py-6 outline-none focus:border-blue-600 text-blue-300 font-mono text-xs transition-all shadow-inner text-right"
-                placeholder="Vercel Token..."
-              />
-           </div>
-           <div className="space-y-3">
-              <label className="text-[10px] font-black text-blue-400 uppercase tracking-widest px-3">معرف المشروع (Project ID)</label>
-              <input 
-                type="text"
-                value={projectId}
-                onChange={handleProjectChange}
-                className="w-full bg-black border-2 border-white/5 rounded-3xl px-8 py-6 outline-none focus:border-blue-600 text-white font-mono text-xs transition-all shadow-inner text-right"
-                placeholder="youtube-studio-p"
-              />
+           <div className="bg-black/40 p-8 rounded-[3rem] border border-white/5 space-y-8">
+              <div className="space-y-3">
+                 <div className="flex justify-between items-center px-3">
+                    <span className="text-[9px] text-slate-500 font-bold italic">Required for API Access</span>
+                    <label className="text-[10px] font-black text-blue-400 uppercase tracking-widest">Vercel Access Token</label>
+                 </div>
+                 <input 
+                   type="password"
+                   value={token}
+                   onChange={(e) => setToken(e.target.value)}
+                   className="w-full bg-black border-2 border-white/5 rounded-3xl px-8 py-6 outline-none focus:border-blue-600 text-blue-300 font-mono text-xs transition-all shadow-inner text-right"
+                   placeholder="Enter your Vercel Token..."
+                 />
+              </div>
+              <div className="space-y-3">
+                 <div className="flex justify-between items-center px-3">
+                    <span className="text-[9px] text-slate-500 font-bold italic">Project Slug or ID</span>
+                    <label className="text-[10px] font-black text-blue-400 uppercase tracking-widest">معرف المشروع (Project ID)</label>
+                 </div>
+                 <input 
+                   type="text"
+                   value={projectId}
+                   onChange={handleProjectChange}
+                   className="w-full bg-black border-2 border-white/5 rounded-3xl px-8 py-6 outline-none focus:border-blue-600 text-white font-mono text-xs transition-all shadow-inner text-right"
+                   placeholder="e.g. youtube-studio-p"
+                 />
+              </div>
            </div>
 
            {status === 'error' && (
-             <div className="p-7 bg-rose-500/10 border-2 border-rose-500/20 rounded-[2.5rem] text-rose-400 text-xs font-black animate-shake text-right">
-                ⚠️ تنبيه: {errorMessage}
+             <div className="p-7 bg-rose-500/10 border-2 border-rose-500/20 rounded-[2.5rem] text-rose-400 text-xs font-black animate-shake text-right flex items-center gap-4 justify-end">
+                <span>⚠️ تنبيه: {errorMessage}</span>
+                <div className="w-2 h-2 bg-rose-500 rounded-full animate-ping"></div>
              </div>
            )}
         </div>
