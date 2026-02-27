@@ -8,8 +8,7 @@ import BloggerContentGenerator from './BloggerContentGenerator.tsx';
 import VercelAutomator from './VercelAutomator.tsx';
 import GitHubAutomator from './GitHubAutomator.tsx';
 import SocialCommandCenter from './SocialCommandCenter.tsx';
-import KeyManager from './KeyManager.tsx';
-import { isKeySelected, testAiConnectivity } from '../services/gemini.ts';
+import { testAiConnectivity } from '../services/gemini.ts';
 
 const Dashboard: React.FC<{ 
   posts: Post[], 
@@ -17,20 +16,17 @@ const Dashboard: React.FC<{
   onDeletePost: (id: string) => void,
   onImportPosts: (posts: Post[]) => void 
 }> = ({ posts, onAddNew, onDeletePost, onImportPosts }) => {
-  const [activeTab, setActiveTab] = useState<'blogger' | 'theme' | 'editor' | 'cloud' | 'social' | 'keys'>('blogger');
+  const [activeTab, setActiveTab] = useState<'blogger' | 'theme' | 'editor' | 'cloud' | 'social'>('blogger');
   const [isRepairing, setIsRepairing] = useState(false);
   const [repairLog, setRepairLog] = useState<string[]>([]);
   const [readiness, setReadiness] = useState({
-    key: false,
     blog: posts.length > 0,
     cloud: !!localStorage.getItem('baseera_vercel_token'),
     social: !!localStorage.getItem('social_x')
   });
 
   const checkReadiness = async () => {
-    const keyVal = await isKeySelected();
     setReadiness({
-      key: keyVal,
       blog: posts.length > 0,
       cloud: !!localStorage.getItem('baseera_vercel_token'),
       social: !!localStorage.getItem('social_x')
@@ -157,7 +153,7 @@ const Dashboard: React.FC<{
         {activeTab === 'editor' && <BloggerContentGenerator />}
         {activeTab === 'social' && <SocialCommandCenter posts={posts} />}
         {activeTab === 'theme' && <BloggerThemeGenerator />}
-        {activeTab === 'keys' && <KeyManager />}
+
         {activeTab === 'cloud' && <div className="space-y-12"><VercelAutomator /><GitHubAutomator /></div>}
       </div>
     </div>

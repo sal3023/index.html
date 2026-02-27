@@ -71,14 +71,15 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ onClose }) => {
       return;
     }
 
-    const ai = new GoogleGenAI({ apiKey });
+
     audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
     const inputContext = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 16000 });
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const ai = new GoogleGenAI({ apiKey });
       const sessionPromise = ai.live.connect({
-        model: 'gemini-2.5-flash-native-audio-preview-12-2025',
+        model: 'gemini-2.5-flash-native-audio-preview-09-2025',
         callbacks: {
           onopen: () => {
             setIsConnecting(false);
@@ -171,7 +172,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ onClose }) => {
                </button>
              </div>
            ) : (
-             <>
+             <div className="space-y-6">
                <p className="text-slate-400 font-bold leading-relaxed">تحدث الآن مع المنسق الأعلى لتوجيه سرب الوكلاء الذكيين في إدارة مدونتك.</p>
                
                <div className="h-24 bg-black/40 rounded-3xl p-6 border border-white/5 overflow-y-auto text-sm text-blue-300 font-bold italic">
@@ -188,12 +189,11 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ onClose }) => {
                      إنهاء الجلسة الاستراتيجية ⏹️
                    </button>
                  )}
-               </>
-             )}
-             
-             <button onClick={onClose} className="px-8 bg-white/5 text-slate-500 rounded-[2rem] font-bold hover:text-white transition-colors">إغلاق</button>
-           </div>
-        </div>
+               </div>
+               <button onClick={onClose} className="px-8 bg-white/5 text-slate-500 rounded-[2rem] font-bold hover:text-white transition-colors">إغلاق</button>
+             </div>
+           )}
+         </div>
       </div>
     </div>
   );

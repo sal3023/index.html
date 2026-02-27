@@ -25,10 +25,7 @@ const App: React.FC = () => {
   const [hasApiKey, setHasApiKey] = useState(true);
 
   useEffect(() => {
-    const checkKey = async () => {
-      const selected = await isKeySelected();
-      setHasApiKey(selected);
-    };
+
 
     const initApp = async () => {
       setIsSyncing(true);
@@ -47,12 +44,11 @@ const App: React.FC = () => {
       setIsSyncing(false);
     };
 
-    checkKey();
+
     initApp();
     
-    const keyInterval = setInterval(checkKey, 10000);
-    document.documentElement.classList.add('dark');
-    return () => clearInterval(keyInterval);
+    // document.documentElement.classList.add('dark');
+    return () => {};
   }, []);
 
   const handleNavigate = (v: ViewMode) => {
@@ -70,31 +66,12 @@ const App: React.FC = () => {
     localStorage.setItem('baseera_pro_posts_v6', JSON.stringify(updated));
   };
 
-  const handleActivateKey = async () => {
-    await openKeySelector();
-    setHasApiKey(true);
-  };
+
 
   return (
     <div className="min-h-screen bg-[#010204] text-slate-100 selection:bg-blue-600 selection:text-white">
       
-      {!hasApiKey && (
-        <div className="fixed top-0 left-0 w-full z-[1000] bg-[#0b1120] border-b-2 border-emerald-500/50 py-4 px-10 flex justify-between items-center shadow-[0_10px_40px_rgba(0,0,0,0.8)] animate-in slide-in-from-top duration-500">
-           <div className="flex items-center gap-5">
-              <div className="w-12 h-12 bg-emerald-600/10 border border-emerald-500/30 rounded-2xl flex items-center justify-center text-2xl text-emerald-500 animate-pulse">🔑</div>
-              <div className="text-right">
-                 <p className="text-[10px] font-black uppercase tracking-[0.25em] text-emerald-400">تنبيه المزامنة السحابية</p>
-                 <p className="text-[12px] text-slate-300 font-bold">بانتظار تنشيط المحرك المجاني لمدونة <span className="text-white italic">tosh5.shop</span>.</p>
-              </div>
-           </div>
-           <button 
-             onClick={handleActivateKey}
-             className="px-10 py-3 bg-emerald-600 text-white rounded-2xl font-black text-xs hover:bg-emerald-500 transition-all border border-emerald-400/50 shadow-[0_0_30px_rgba(16,185,129,0.5)] active:scale-95"
-           >
-             تنشيط المحرك المجاني الآن ⚡
-           </button>
-        </div>
-      )}
+
 
       <Navbar 
         currentView={view} 
@@ -117,7 +94,7 @@ const App: React.FC = () => {
         />
       )}
 
-      {showAssistant && <AIAssistant onClose={() => setShowAssistant(false)} />}
+      {showAssistant && <AIAssistant onClose={() => setShowAssistant(false)} />} 
 
       <main className="max-w-[1500px] mx-auto relative pt-40 px-6 md:px-0">
         {view === ViewMode.HOME && <Home posts={posts} onPostClick={(id) => { setSelectedPostId(id); setView(ViewMode.POST); }} setView={handleNavigate} />}

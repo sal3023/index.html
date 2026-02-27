@@ -8,11 +8,16 @@ export const checkDomainStatus = async (domain: string = "youtube-studio-p.verce
 };
 
 export const fetchBloggerPosts = async (blogId?: string) => {
-  const apiKey = process.env.API_KEY;
+  const apiKey = import.meta.env.VITE_BLOGGER_API_KEY;
   const SOVEREIGN_BLOG_ID = "3419581055091564415";
   const activeBlogId = blogId || localStorage.getItem('baseera_blog_id') || SOVEREIGN_BLOG_ID;
   
   localStorage.setItem('baseera_blog_id', activeBlogId);
+
+  if (!apiKey) {
+    console.error("Blogger API Key is missing. Please set VITE_BLOGGER_API_KEY in your .env file.");
+    return [];
+  }
 
   try {
     const apiUrl = `https://www.googleapis.com/blogger/v3/blogs/${activeBlogId}/posts?key=${apiKey}&maxResults=12`;

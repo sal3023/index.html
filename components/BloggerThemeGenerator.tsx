@@ -116,7 +116,7 @@ const BloggerThemeGenerator: React.FC = () => {
               >
                 {copied ? '✅ تم نسخ كود القالب' : 'نسخ الكود الكامل 📋'}
               </button>
-              <p className="text-[10px] text-slate-500 font-black text-center uppercase tracking-widest">ثم اذهب إلى Blogger > Theme > Edit HTML</p>
+              <p className="text-[10px] text-slate-500 font-black text-center uppercase tracking-widest">ثم اذهب إلى Blogger {'>'} Theme {'>'} Edit HTML</p>
            </div>
         </div>
 

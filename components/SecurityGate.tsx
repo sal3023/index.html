@@ -9,6 +9,7 @@ interface SecurityGateProps {
 const SecurityGate: React.FC<SecurityGateProps> = ({ onSuccess, onCancel }) => {
   const [pin, setPin] = useState('');
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,8 +17,12 @@ const SecurityGate: React.FC<SecurityGateProps> = ({ onSuccess, onCancel }) => {
       onSuccess();
     } else {
       setError(true);
+      setErrorMessage('الرمز غير صحيح. يرجى المحاولة مرة أخرى.');
       setPin('');
-      setTimeout(() => setError(false), 500);
+      setTimeout(() => {
+        setError(false);
+        setErrorMessage('');
+      }, 2000);
     }
   };
 
@@ -27,6 +32,7 @@ const SecurityGate: React.FC<SecurityGateProps> = ({ onSuccess, onCancel }) => {
         <div className="w-20 h-20 bg-blue-600 rounded-full mx-auto mb-8 flex items-center justify-center text-3xl shadow-2xl animate-bounce">🔑</div>
         <h2 className="text-2xl font-black text-white mb-2">رمز العبور الآمن</h2>
         <p className="text-slate-500 text-xs mb-8 font-bold">للدخول إلى بصيرة PRO، استخدم الرمز السنوي:</p>
+        {errorMessage && <p className="text-red-500 text-sm mb-4 font-bold animate-in fade-in duration-300">{errorMessage}</p>}
         
         <div className="bg-blue-500/10 p-6 rounded-3xl mb-8 border border-blue-500/20">
           <p className="text-[10px] text-blue-400 mb-1 font-black uppercase tracking-widest">الرمز السري الحالي</p>
@@ -38,7 +44,7 @@ const SecurityGate: React.FC<SecurityGateProps> = ({ onSuccess, onCancel }) => {
             type="password" 
             maxLength={4}
             value={pin}
-            onChange={(e) => setPin(e.target.value)}
+            onChange={(e) => { setPin(e.target.value); setErrorMessage(''); }}
             autoFocus
             className={`w-full bg-slate-800 border-2 ${error ? 'border-red-500 animate-shake' : 'border-white/5'} rounded-2xl py-5 text-center text-white text-4xl font-black focus:border-blue-500 outline-none transition-all shadow-inner`}
             placeholder="ـ ـ ـ ـ"

@@ -1,0 +1,14 @@
+name = "baseera-pro-app"
+main = "./src/index.ts"
+compatibility_date = "2024-01-01"
+
+[build]
+command = "npm run build"
+minify = true
+
+[pages]
+"directory" = "dist"
+
+[vars]
+# VITE_GEMINI_API_KEY = "your_gemini_api_key_here" # هذا سيتم توفيره كمتغير بيئة في Cloudflare Pages
+# CLOUDFLARE_API_TOKEN = "your_cloudflare_api_token_here" # هذا سيتم توفيره كمتغير بيئة في Cloudflare Pages
