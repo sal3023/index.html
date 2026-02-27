@@ -81,7 +81,7 @@ const Dashboard: React.FC<{
          <div className="flex flex-col lg:flex-row justify-between items-center gap-10">
             <div className="flex-1 space-y-6">
                <div className="flex items-center gap-6">
-                 <h1 className="text-5xl font-black tracking-tighter text-white italic">معالج الجاهزية (Vercel Core)</h1>
+                 <h1 className="text-5xl font-black tracking-tighter text-white italic">مركز القيادة السيادي (Vercel Core)</h1>
                  <button 
                    onClick={handleSystemRepair}
                    className="px-6 py-2 bg-emerald-600/10 border border-emerald-500/30 text-emerald-400 rounded-full text-[10px] font-black uppercase hover:bg-emerald-600 hover:text-white transition-all shadow-xl"
@@ -90,9 +90,8 @@ const Dashboard: React.FC<{
                  </button>
                </div>
                
-               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-6">
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-6">
                   {[
-                    { id: 'keys', label: 'تفعيل المفتاح', done: readiness.key, desc: 'Gemini Flash' },
                     { id: 'blogger', label: 'المزامنة', done: readiness.blog, desc: 'Blogger Import' },
                     { id: 'theme', label: 'القالب الماسي', done: false, desc: 'Blogger XML' },
                     { id: 'cloud', label: 'الربط السحابي', done: readiness.cloud, desc: 'Vercel & GitHub' }
@@ -122,7 +121,6 @@ const Dashboard: React.FC<{
 
       <div className="flex flex-wrap gap-4 p-3 bg-black/40 rounded-[2.5rem] border border-white/5 w-fit">
         {[
-          { id: 'keys', label: 'المفاتيح 🔑' },
           { id: 'blogger', label: 'المزامنة 🔄' },
           { id: 'editor', label: 'المصنع ✍️' },
           { id: 'social', label: 'السوشيال 📱' },

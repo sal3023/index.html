@@ -29,19 +29,24 @@ const App: React.FC = () => {
 
     const initApp = async () => {
       setIsSyncing(true);
-      const saved = localStorage.getItem('baseera_pro_posts_v6');
-      if (saved) {
-        setPosts(JSON.parse(saved));
-      }
+      try {
+        const saved = localStorage.getItem('baseera_pro_posts_v6');
+        if (saved) {
+          setPosts(JSON.parse(saved));
+        }
 
-      const blogId = localStorage.getItem('baseera_blog_id');
-      const freshPosts = await fetchBloggerPosts(blogId || undefined);
-      
-      if (freshPosts && freshPosts.length > 0) {
-        setPosts(freshPosts);
-        localStorage.setItem('baseera_pro_posts_v6', JSON.stringify(freshPosts));
+        const blogId = localStorage.getItem('baseera_blog_id');
+        const freshPosts = await fetchBloggerPosts(blogId || undefined);
+        
+        if (freshPosts && freshPosts.length > 0) {
+          setPosts(freshPosts);
+          localStorage.setItem('baseera_pro_posts_v6', JSON.stringify(freshPosts));
+        }
+      } catch (error) {
+        console.error("Force Sync Protocol: Connectivity issue bypassed.");
+      } finally {
+        setIsSyncing(false);
       }
-      setIsSyncing(false);
     };
 
 
